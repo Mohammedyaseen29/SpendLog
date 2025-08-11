@@ -2,17 +2,12 @@ package authservices.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
-@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -20,16 +15,18 @@ import java.util.Set;
 public class UserInfo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-   private String userId;
+   private Long id;
+    @Column(nullable = false,unique = true)
    private String username;
+    @Column(nullable = false)
    private String password;
 
-   @ManyToMany(fetch = FetchType.EAGER)
-   @JoinTable(name = "users_roles",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Enumerated(EnumType.STRING)
 
+    private Role role;
 
-    private Set<UserRole> roles = new HashSet<>();
 
 
 
